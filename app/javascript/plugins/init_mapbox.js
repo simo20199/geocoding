@@ -6,7 +6,7 @@ const mapElement = document.getElementById('map');
 
 const addMarkers = (map, markers) => {
   markers.forEach((marker) => {
-  const popup = new mapboxgl.Popup().setHTML(marker.infow_window); // add this
+  const popup = new mapboxgl.Popup().setHTML(marker.infowindow); // add this
 
     new mapboxgl.Marker()
       .setLngLat([ marker.lng, marker.lat ])
