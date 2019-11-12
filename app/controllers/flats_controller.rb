@@ -1,10 +1,13 @@
 class FlatsController < ApplicationController
-  before_action :set_flat, only: [:show, :edit, :update, :destroy]
+  before_action :set_flat, only: %i[show edit update destroy]
 
   # GET /flats
   # GET /flats.json
   def index
-    @flats = Flat.all
+    @flats = Flat.where.not(latitude: nil, longitude: nil)
+    @markers = @flats.map do |flat|
+      { lat: flat.latitude, lng: flat.longitude }
+    end
   end
 
   # GET /flats/1
@@ -62,13 +65,14 @@ class FlatsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_flat
-      @flat = Flat.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def flat_params
-      params.require(:flat).permit(:name, :address)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_flat
+    @flat = Flat.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def flat_params
+    params.require(:flat).permit(:name, :address)
+  end
 end
